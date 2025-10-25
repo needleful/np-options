@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dkxxknvuphfm4"]
 
-[ext_resource type="Script" uid="uid://jvtjp16f1cyp" path="res://addons/fast_options/scripts/bool_widget.gd" id="1"]
+[ext_resource type="Script" uid="uid://jvtjp16f1cyp" path="res://addons/np-options/scripts/bool_widget.gd" id="1"]
 
 [node name="bool_option" type="HBoxContainer"]
 anchors_preset = 15

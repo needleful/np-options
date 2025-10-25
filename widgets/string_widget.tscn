@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://addons/fast_options/scripts/string_widget.gd" type="Script" id=1]
+[ext_resource path="res://addons/np-options/scripts/string_widget.gd" type="Script" id=1]
 
 [node name="string_widget" type="HBoxContainer"]
 anchor_right = 1.0
