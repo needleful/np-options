@@ -26,7 +26,7 @@ func add_options(osc: Script, options):
 	if osc.has_script_signal('ui_redraw'):
 		var res = options.ui_redraw.connect(ui_redraw.emit)
 		if res != OK:
-			print_debug('Could not connect ui_redraw signal!  Error: ', res)
+			push_error('Could not connect ui_redraw signal!  Error: ', res)
 	sub_options[options.group_name] = options
 	option_scripts_dict[options.group_name] = osc
 	load_settings()
@@ -36,7 +36,7 @@ func _exit_tree():
 
 func load_settings():
 	if !FileAccess.file_exists(save_path):
-		print_debug('No settings file: ', save_path)
+		push_error('No settings file: ', save_path)
 		return
 	var file:ConfigFile = ConfigFile.new()
 	var res = file.load(save_path)
@@ -47,7 +47,7 @@ func load_settings():
 	
 	for section in file.get_sections():
 		if !(section in sub_options):
-			print_debug('WARNING: unknown options section: ', section)
+			push_warning('Unknown options section: ', section)
 			continue
 		sub_load_from(sub_options[section], file)
 	initialized = true
@@ -59,7 +59,7 @@ func save_settings():
 
 	var res = file.save(save_path)
 	if res != OK:
-		print_debug('Failed to save config file with error: ',res)
+		push_error('Failed to save config file with error: ',res)
 
 func sub_load_from(options, file: ConfigFile):
 	var section_name = options.group_name
