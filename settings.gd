@@ -21,6 +21,7 @@ func _enter_tree() -> void:
 		if options is Node:
 			add_child(options)
 		add_options(osc, options)
+	load_settings()
 
 func add_options(osc: Script, options):
 	if osc.has_script_signal('ui_redraw'):
@@ -29,7 +30,6 @@ func add_options(osc: Script, options):
 			push_error('Could not connect ui_redraw signal!  Error: ', res)
 	sub_options[options.group_name] = options
 	option_scripts_dict[options.group_name] = osc
-	load_settings()
 
 func _exit_tree():
 	save_settings()
@@ -47,7 +47,7 @@ func load_settings():
 	
 	for section in file.get_sections():
 		if !(section in sub_options):
-			push_warning('Unknown options section: ', section)
+			push_warning('Unsupported section found in settings file: ', section)
 			continue
 		sub_load_from(sub_options[section], file)
 	initialized = true

@@ -1,3 +1,4 @@
+class_name OptionsSubMenu
 extends Control
 
 signal ui_redraw
@@ -27,7 +28,7 @@ func _init():
 	r_enum_hint.compile('(\\w\\S*:\\d+,?)+')
 
 func generate():
-	if menu_name == '':
+	if !menu_name:
 		menu_name = name
 	options = Settings.sub_options[menu_name]
 	redraw.call_deferred()
