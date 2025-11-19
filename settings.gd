@@ -23,6 +23,9 @@ func _enter_tree() -> void:
 		add_options(osc, options)
 	load_settings()
 
+func _exit_tree():
+	save_settings()
+
 func add_options(osc: Script, options):
 	if osc.has_script_signal('ui_redraw'):
 		var res = options.ui_redraw.connect(ui_redraw.emit)
@@ -31,8 +34,11 @@ func add_options(osc: Script, options):
 	sub_options[options.group_name] = options
 	option_scripts_dict[options.group_name] = osc
 
-func _exit_tree():
-	save_settings()
+func get_options_group(group_name: String):
+	return sub_options.get(group_name)
+
+func reset_group(group_name: String):
+	pass
 
 func load_settings():
 	if !FileAccess.file_exists(save_path):

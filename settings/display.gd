@@ -8,16 +8,38 @@ signal ui_redraw
 enum ScreenMode {
 	Fullscreen,
 	Windowed,
-	Borderless,
+	BorderlessWindowed,
 	ExclusiveFullscreen
 }
 
+@export var screen_mode: ScreenMode:
+	set(val):
+		screen_mode = val
+		if !get_window():
+			return
+		match screen_mode:
+			ScreenMode.Fullscreen:
+				get_window().mode = Window.MODE_FULLSCREEN
+			ScreenMode.Windowed:
+				get_window().mode = Window.MODE_WINDOWED
+				get_window().borderless = false
+			ScreenMode.BorderlessWindowed:
+				get_window().mode = Window.MODE_WINDOWED
+				get_window().borderless = true
+			ScreenMode.ExclusiveFullscreen:
+				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+
 #warning-ignore:unused_class_variable
-@export var screen_mode: ScreenMode: get = get_screen, set = set_screen
-#warning-ignore:unused_class_variable
-@export var vsync: bool: get = get_vsync, set = set_vsync
-@export_range(8, 120) var text_size: int: get = get_textsize, set = set_textsize
-@export var text_color: Color:
+@export var vsync: bool:
+	set(val):
+		vsync = val
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if (val) else DisplayServer.VSYNC_DISABLED)
+@export_range(8, 120) var text_size: int = 32:
+	set(val):
+		text_size = val
+		theme.default_font_size = val
+		emit_signal('ui_redraw')
+@export var text_color: Color = Color.WHITE:
 	get:
 		return theme.get_color('font_color', 'Label')
 	set(val):
@@ -30,39 +52,3 @@ enum ScreenMode {
 		emit_signal('ui_redraw')
 
 var group_name := &'Display'
-
-func set_screen(val: ScreenMode):
-	screen_mode = val
-	if !get_window():
-		return
-	match screen_mode:
-		ScreenMode.Fullscreen:
-			get_window().mode = Window.MODE_FULLSCREEN
-			get_window().borderless = false
-		ScreenMode.Windowed:
-			get_window().mode = Window.MODE_WINDOWED
-		ScreenMode.Borderless:
-			get_window().mode = Window.MODE_WINDOWED
-			get_window().borderless = true
-		ScreenMode.ExclusiveFullscreen:
-			get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
-
-func get_screen() -> int:
-	return screen_mode
-
-func set_vsync(val: bool):
-	vsync = val
-	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if (val) else DisplayServer.VSYNC_DISABLED)
-
-func get_vsync()->bool:
-	vsync = (DisplayServer.window_get_vsync_mode() != DisplayServer.VSYNC_DISABLED)
-	return vsync
-
-func get_textsize():
-	text_size = theme.default_font_size
-	return text_size
-
-func set_textsize(val):
-	text_size = val
-	theme.default_font_size = val
-	emit_signal('ui_redraw')

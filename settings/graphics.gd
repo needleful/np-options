@@ -21,31 +21,30 @@ var group_name := &'Graphics'
 
 func set_q_shadows(sq):
 	shadow_quality = sq
+	var directional_shadow_size := 'rendering/lights_and_shadows/directional_shadow/size'
+	var shadow_atlas_size := 'rendering/lights_and_shadows/positional_shadow/atlas_size'
 	match shadow_quality:
-		Quality.High: 
-			ProjectSettings['rendering/quality/directional_shadow/size'] = 8192
-			ProjectSettings['rendering/lights_and_shadows/shadow_atlas/size'] = 4096
-			ProjectSettings['rendering/quality/shadows/filter_mode'] = 1
+		Quality.High:
+			ProjectSettings[directional_shadow_size] = 8192
+			ProjectSettings[shadow_atlas_size] = 4096
 		Quality.Medium:
-			ProjectSettings['rendering/quality/directional_shadow/size'] = 4096
-			ProjectSettings['rendering/lights_and_shadows/shadow_atlas/size'] = 2048
-			ProjectSettings['rendering/quality/shadows/filter_mode'] = 1
+			ProjectSettings[directional_shadow_size] = 4096
+			ProjectSettings[shadow_atlas_size] = 2048
 		Quality.Low, Quality.Disabled:
-			ProjectSettings['rendering/quality/directional_shadow/size'] = 2048
-			ProjectSettings['rendering/lights_and_shadows/shadow_atlas/size'] = 1024
-			ProjectSettings['rendering/quality/shadows/filter_mode'] = 0
+			ProjectSettings[directional_shadow_size] = 2048
+			ProjectSettings[shadow_atlas_size] = 1024
 	emit_signal('env_changed')
 
 func set_anti_alias(a: Quality):
 	anti_aliasing = a
-	var alias_quality := RenderingServer.VIEWPORT_MSAA_DISABLED
+	var alias_quality := get_viewport().msaa_3d
 	match a:
 		Quality.High:
-			alias_quality = RenderingServer.VIEWPORT_MSAA_8X
+			alias_quality = Viewport.MSAA_8X
 		Quality.Medium:
-			alias_quality = RenderingServer.VIEWPORT_MSAA_4X
+			alias_quality = Viewport.MSAA_4X
 		Quality.Low:
-			alias_quality = RenderingServer.VIEWPORT_MSAA_2X
+			alias_quality = Viewport.MSAA_2X
 		Quality.Disabled:
-			alias_quality = RenderingServer.VIEWPORT_MSAA_DISABLED
-	RenderingServer.viewport_set_msaa_3d(get_viewport().get_viewport_rid(), alias_quality)
+			alias_quality = Viewport.MSAA_DISABLED
+	get_viewport().msaa_3d = alias_quality

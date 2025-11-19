@@ -8,7 +8,7 @@ enum Prompts {
 }
 
 @export var button_prompts: Prompts = Prompts.AutoDetect: set = set_prompts
-@export var camera_sensitivity := 1.0 # (float, 0.1, 4.0, 0.2)
+@export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
 @export var invert_x := false
 @export var invert_y := false
 var group_name := &'Controls'

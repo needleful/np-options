@@ -6,6 +6,7 @@ signal back_pressed
 
 @export var menu_name := ''
 @export var with_back_button := true
+@export var debug_hidden_exports := false
 
 const TYPE_WIDGETS = {
 	TYPE_BOOL: preload('res://addons/np-options/widgets/bool_widget.tscn'),
@@ -62,7 +63,7 @@ func create_widget(property:Dictionary)->void:
 		var value = options.get(property.name)
 		if value is Resource and value.resource_name in CLASS_WIDGETS:
 			add_widget(property, CLASS_WIDGETS[value.resource_name])
-		else:
+		elif debug_hidden_exports:
 			var text = Label.new()
 			text.text = '%s: %s (No Widget Available: "%s")' % [
 				property.name, 
