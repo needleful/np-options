@@ -1,13 +1,18 @@
 extends HBoxContainer
 
+signal preview_change(opt_name, value)
 signal changed(opt_name, value)
 
 var option_name:String
 
+var dragging := false
+
 func _ready():
 	for c in get_children():
 		c.focus_neighbor_left = c.get_path()
-	$value/slider.connect("value_changed", Callable(self, "_on_value_changed"))
+	$value/slider.drag_started.connect(_start_drag)
+	$value/slider.drag_ended.connect(_end_drag)
+	$value/slider.value_changed.connect(_on_value_changed)
 
 func set_option_hint(option:Dictionary):
 	if option.hint == PROPERTY_HINT_RANGE:
@@ -26,6 +31,17 @@ func set_option_value(val:float):
 func grab_focus():
 	$value/slider.grab_focus()
 
+func _start_drag():
+	dragging = true
+
+func _end_drag(value_changed: bool):
+	dragging = false
+	if value_changed:
+		changed.emit(option_name, $value/slider.value)
+
 func _on_value_changed(value):
 	$value/label.text = str(value)
-	emit_signal('changed', option_name, value)
+	if dragging:
+		preview_change.emit(option_name, value)
+	else:
+		changed.emit(option_name, value)

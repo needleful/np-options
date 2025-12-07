@@ -38,17 +38,17 @@ enum ScreenMode {
 	set(val):
 		text_size = val
 		theme.default_font_size = val
-		emit_signal('ui_redraw')
+		ui_redraw.emit()
 @export var text_color: Color = Color.WHITE:
 	get:
-		return theme.get_color('font_color', 'Label')
+		return theme.get_color(&'font_color', &'Label')
 	set(val):
-		theme.set_color('font_color', 'Label', val)
-		theme.set_color('font_color', 'Button', val)
-		theme.set_color('font_color', 'OptionButton', val)
-		theme.set_color('font_color_fg', 'TabBar', val)
-		theme.set_color('font_color_fg', 'TabContainer', val)
-		theme.set_color('default_color', 'RichTextLabel', val)
-		emit_signal('ui_redraw')
+		theme.set_color(&'font_color', &'Label', val)
+		theme.set_color(&'font_color', &'Button', val)
+		theme.set_color(&'font_color', &'OptionButton', val)
+		theme.set_color(&'font_color_fg', &'TabBar', val)
+		theme.set_color(&'font_color_fg', &'TabContainer', val)
+		theme.set_color(&'default_color', &'RichTextLabel', val)
+		ui_redraw.emit()
 
 var group_name := &'Display'
