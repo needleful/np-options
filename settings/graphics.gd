@@ -12,12 +12,29 @@ enum Quality {
 
 @export var shadow_quality := Quality.Medium: set = set_q_shadows
 @export var anti_aliasing := Quality.Medium: set = set_anti_alias
+@export var grass_quality := Quality.High:
+	set(q):
+		grass_quality = q
+		match q:
+			Quality.High:
+				_grass_distance = 300.0
+			Quality.Medium:
+				_grass_distance = 75.0
+			Quality.Low:
+				_grass_distance = 20.0
+			Quality.Disabled:
+				_grass_distance = 0.0
 @export var bloom: bool = false:
 	set(b):
 		bloom = b
 		emit_signal('env_changed')
 
+var _grass_distance: float
+
 var group_name := &'Graphics'
+
+func _ready():
+	grass_quality = grass_quality
 
 func set_q_shadows(sq):
 	shadow_quality = sq
