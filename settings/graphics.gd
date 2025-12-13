@@ -17,19 +17,21 @@ enum Quality {
 		grass_quality = q
 		match q:
 			Quality.High:
-				_grass_distance = 300.0
+				decals_min_pixels = 2.0
 			Quality.Medium:
-				_grass_distance = 75.0
+				decals_min_pixels = 10.0
 			Quality.Low:
-				_grass_distance = 20.0
+				decals_min_pixels = 30.0
 			Quality.Disabled:
-				_grass_distance = 0.0
+				decals_min_pixels = -1.0
 @export var bloom: bool = false:
 	set(b):
 		bloom = b
 		emit_signal('env_changed')
 
-var _grass_distance: float
+# Minimum pixels along the shortest dimension before
+# decals should be hidden
+var decals_min_pixels: float
 
 var group_name := &'Graphics'
 
