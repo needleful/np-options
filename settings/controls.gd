@@ -1,6 +1,8 @@
 extends Node
 class_name ControlsSettings
 
+signal prompts_changed(type)
+
 enum Prompts {
 	AutoDetect,
 	Gamepad,
@@ -15,6 +17,4 @@ var group_name := &'Controls'
 
 func set_prompts(value):
 	button_prompts = value
-	if button_prompts != Prompts.AutoDetect:
-		InputManagement.using_gamepad = button_prompts == Prompts.Gamepad
-	get_tree().call_group('input_prompt', '_refresh')
+	prompts_changed.emit(value)
