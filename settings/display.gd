@@ -21,7 +21,7 @@ enum ScreenMode {
 			ScreenMode.Fullscreen:
 				get_window().mode = Window.MODE_FULLSCREEN
 			ScreenMode.Windowed:
-				get_window().mode = Window.MODE_WINDOWED
+				get_window().mode = Window.MODE_MAXIMIZED
 				get_window().borderless = false
 			ScreenMode.BorderlessWindowed:
 				get_window().mode = Window.MODE_WINDOWED
