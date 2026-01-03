@@ -3,13 +3,19 @@ class_name ControlsSettings
 
 signal prompts_changed(type)
 
-enum Prompts {
+enum PromptMode {
 	AutoDetect,
-	Gamepad,
-	Keyboard
+	Keyboard,
+	# Unknown gamepad
+	GenericGamepad,
+	# XBox buttons
+	XBox,
+	Playstation,
+	# Gamecube/Switch-style buttons
+	Nintendo
 }
 
-@export var button_prompts: Prompts = Prompts.AutoDetect: set = set_prompts
+@export var button_prompts: PromptMode = PromptMode.AutoDetect: set = set_prompts
 @export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
 @export var invert_x := false
 @export var invert_y := false
