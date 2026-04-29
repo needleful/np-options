@@ -1,20 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://3bwlls6q7cre"]
+[gd_scene load_steps=8 format=3 uid="uid://3bwlls6q7cre"]
 
 [ext_resource type="Script" uid="uid://5skj2hrpmlda" path="res://addons/np-options/scripts/color_widget.gd" id="1"]
 [ext_resource type="Script" uid="uid://c02kxw6y0yt6d" path="res://addons/np-options/scripts/components/hue_slider.gd" id="2"]
 [ext_resource type="Script" uid="uid://1aexherg5pue" path="res://addons/np-options/scripts/components/saturation_slider.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://bfyypo8xgr203" path="res://addons/np-options/assets/rainbow.tres" id="3_mv5go"]
 [ext_resource type="Script" uid="uid://cwreuwbbkcbjs" path="res://addons/np-options/scripts/components/value_slider.gd" id="4"]
 
 [sub_resource type="StyleBoxEmpty" id="4"]
-
-[sub_resource type="Gradient" id="Gradient_phjxf"]
-offsets = PackedFloat32Array(0, 0.16666667, 0.33333334, 0.5, 0.6666667, 0.8333333, 1)
-colors = PackedColorArray(1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_mv5go"]
-gradient = SubResource("Gradient_phjxf")
-width = 800
-height = 6
 
 [sub_resource type="StyleBoxEmpty" id="1"]
 
@@ -59,7 +51,7 @@ show_behind_parent = true
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource("GradientTexture2D_mv5go")
+texture = ExtResource("3_mv5go")
 expand_mode = 1
 
 [node name="Label2" type="Label" parent="value"]
