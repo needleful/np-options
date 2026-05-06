@@ -49,7 +49,7 @@ func redraw():
 		var back := Button.new()
 		back.text = tr('Back')
 		add_child(back)
-		back.connect('pressed', Callable(self, 'emit_signal').bind('back_pressed'))
+		back.pressed.connect(back_pressed.emit)
 
 func create_widget(property:Dictionary)->void:
 	var type = property.type
@@ -78,16 +78,16 @@ func add_widget(property, widget_scene: PackedScene) -> void:
 	widget.set_option_hint(property)
 	widget.set_option_value(options.get(property.name))
 	if options.has_method('set_option'):
-		widget.connect('changed', Callable(options, 'set_option'))
+		widget.changed.connect(options.set_option)
 	else:
-		widget.connect('changed', Callable(options, 'set'))
+		widget.changed.connect(options.set)
 
 func is_export_var(property)->bool:
 	return (property.usage & Settings.USAGE_FLAGS == Settings.USAGE_FLAGS
 		and !property.name.begins_with('_'))
 
 func _on_ui_redraw():
-	emit_signal('ui_redraw')
+	ui_redraw.emit()
 
 func top_grab_focus():
 	for c in get_children():

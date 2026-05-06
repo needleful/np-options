@@ -27,7 +27,7 @@ enum Quality {
 @export var bloom: bool = false:
 	set(b):
 		bloom = b
-		emit_signal('env_changed')
+		env_changed.emit()
 
 # Minimum pixels along the shortest dimension before
 # decals should be hidden
@@ -52,7 +52,7 @@ func set_q_shadows(sq):
 		Quality.Low, Quality.Disabled:
 			ProjectSettings[directional_shadow_size] = 2048
 			ProjectSettings[shadow_atlas_size] = 1024
-	emit_signal('env_changed')
+	env_changed.emit()
 
 func set_anti_alias(a: Quality):
 	anti_aliasing = a

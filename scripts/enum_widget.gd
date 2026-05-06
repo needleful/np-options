@@ -12,7 +12,7 @@ func _init():
 func _ready():
 	for c in get_children():
 		c.focus_neighbor_left = c.get_path()
-	$value.connect("item_selected", Callable(self, "_on_item_selected"))
+	$value.item_selected.connect(_on_item_selected)
 
 func set_option_hint(option:Dictionary):
 	option_name = option.name
@@ -30,4 +30,4 @@ func grab_focus():
 	$value.grab_focus()
 
 func _on_item_selected(ID: int):
-	emit_signal('changed', option_name, ID)
+	changed.emit(option_name, ID)

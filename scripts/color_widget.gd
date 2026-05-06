@@ -29,7 +29,7 @@ func _on_color_changed():
 	preview.color = Color.from_hsv(i.x, i.y, i.z)
 	$value/sat/preview.color = Color.from_hsv(i.x, 1.0, i.z)
 	$value/val/preview.color = Color.from_hsv(i.x, i.y, 1.0)
-	emit_signal('changed', option_name, preview.color)
+	changed.emit(option_name, preview.color)
 
 func _on_hue_value_changed(h: float):
 	internal_color.x = h

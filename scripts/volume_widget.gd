@@ -8,8 +8,8 @@ var channel: AudioChannel
 func _ready():
 	for c in get_children():
 		c.focus_neighbor_left = c.get_path()
-	$HSlider.connect("value_changed", Callable(self, "_on_volume_changed"))
-	$mute.connect("toggled", Callable(self, "_on_mute_toggled"))
+	$HSlider.value_changed.connect(_on_volume_changed)
+	$mute.toggled.connect(_on_mute_toggled)
 
 func _input(event: InputEvent):
 	if ( visible
@@ -33,10 +33,10 @@ func grab_focus():
 func _on_mute_toggled(val: bool):
 	if channel:
 		channel.muted = val
-		emit_signal('changed', opt_name, channel)
+		changed.emit(opt_name, channel)
 
 func _on_volume_changed(val:float):
 	if channel:
 		channel.vol = val
 		$volLabel.text = '%.2f' % val
-		emit_signal('changed', opt_name, channel)
+		changed.emit(opt_name, channel)
