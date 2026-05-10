@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhoksqmimn0m2"]
+
+[ext_resource type="Script" uid="uid://blpgi1wrphyit" path="res://addons/np-options/scripts/control_binding_widget.gd" id="1_ldnnr"]
+
+[node name="ControlBindingWidget" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ldnnr")
+
+[node name="action" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Action"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="input" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="set" type="Button" parent="."]
+layout_mode = 2
+text = "Set Input"

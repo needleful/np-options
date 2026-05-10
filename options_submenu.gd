@@ -17,6 +17,7 @@ const TYPE_WIDGETS = {
 }
 const CLASS_WIDGETS = {
 	'AudioChannel': preload('res://addons/np-options/widgets/volume_widget.tscn'),
+	'ControlBinding': preload('res://addons/np-options/widgets/control_binding_widget.tscn'),
 	'enum': preload('res://addons/np-options/widgets/enum_widget.tscn')
 }
 
