@@ -8,5 +8,12 @@ class_name AudioSettings
 
 var group_name := &'Audio'
 
-func set_option(property, value):
-	get(property).apply(value)
+func encode(property: String):
+	var a: AudioChannel = get(property)
+	return str(a.vol) + ';' + str(a.muted)
+
+func decode(property: String, value: String) -> void:
+	var p := value.split(';')
+	var a: AudioChannel = get(property)
+	a.vol = float(p[0])
+	a.muted = p[1] == 'true'

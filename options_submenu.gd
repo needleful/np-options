@@ -13,12 +13,12 @@ const TYPE_WIDGETS = {
 	TYPE_FLOAT: preload('res://addons/np-options/widgets/range_widget.tscn'),
 	TYPE_INT: preload('res://addons/np-options/widgets/range_widget.tscn'),
 	TYPE_COLOR: preload('res://addons/np-options/widgets/color_widget.tscn'),
-	TYPE_STRING: preload('res://addons/np-options/widgets/string_widget.tscn')
+	TYPE_STRING: preload('res://addons/np-options/widgets/string_widget.tscn'),
 }
 const CLASS_WIDGETS = {
 	'AudioChannel': preload('res://addons/np-options/widgets/volume_widget.tscn'),
-	'ControlBinding': preload('res://addons/np-options/widgets/control_binding_widget.tscn'),
-	'enum': preload('res://addons/np-options/widgets/enum_widget.tscn')
+	'enum': preload('res://addons/np-options/widgets/enum_widget.tscn'),
+	'binding': preload('res://addons/np-options/widgets/control_binding_widget.tscn'),
 }
 
 var options: Object
@@ -58,6 +58,8 @@ func create_widget(property:Dictionary)->void:
 		add_widget(property, custom_widgets[property.name])
 	elif type == TYPE_INT and r_enum_hint.search(property.hint_string):
 		add_widget(property, CLASS_WIDGETS['enum'])
+	elif property.hint_string in CLASS_WIDGETS:
+		add_widget(property, CLASS_WIDGETS[property.hint_string])
 	elif type in TYPE_WIDGETS:
 		add_widget(property, TYPE_WIDGETS[type])
 	else:

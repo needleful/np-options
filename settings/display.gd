@@ -3,7 +3,7 @@ class_name DisplaySettings
 
 signal ui_redraw
 
-@export var theme:Theme
+var theme:Theme
 
 enum ScreenMode {
 	Fullscreen,

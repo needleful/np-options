@@ -18,7 +18,15 @@ text = "Action"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="input" type="Label" parent="."]
+[node name="input_gamepad" type="Label" parent="."]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Input"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="input_keyboard" type="Label" parent="."]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 size_flags_horizontal = 3

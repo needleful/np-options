@@ -69,16 +69,14 @@ func save_settings():
 
 func sub_load_from(options, file: ConfigFile):
 	var section_name = options.group_name
-	if options.has_method('set_option'):
-		for property in file.get_section_keys(section_name):
-			options.set_option(property, file.get_value(section_name, property))
-	else:
-		for property in file.get_section_keys(section_name):
-			options.set(property, file.get_value(section_name, property))
+	var decode:Callable = options.decode if options.has_method('decode') else options.set
+	for property in file.get_section_keys(section_name):
+		decode.call(property, file.get_value(section_name, property))
 
 func sub_save_to(options, file: ConfigFile):
 	var section_name = options.group_name
+	var encode: Callable = options.encode if options.has_method('encode') else options.get
 	for property in options.get_property_list():
 		if property.usage & USAGE_FLAGS == USAGE_FLAGS:
-			file.set_value(section_name, property.name, options.get(property.name))
+			file.set_value(section_name, property.name, encode.call(property.name))
 	return file

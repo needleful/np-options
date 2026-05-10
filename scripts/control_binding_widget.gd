@@ -7,14 +7,16 @@ var option_name:String
 func _ready():
 	for c in get_children():
 		c.focus_neighbor_left = c.get_path()
+		c.focus_neighbor_right = c.get_path()
 	$set.pressed.connect(_rebind_start)
 
 func _rebind_start():
-	pass
+	print_debug('Rebinding ', option_name)
 
 func set_option_hint(option:Dictionary):
 	option_name = option.name
+	$action.text = option.name.split('/')[1]
 
-func set_option_value(val:ControlBinding):
-	$action.text = val.action
-	$input.text = val.input
+func set_option_value(val:Array):
+	$input_keyboard.text = val[0]
+	$input_gamepad.text = val[1]
