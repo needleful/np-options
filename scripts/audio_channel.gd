@@ -1,25 +1,27 @@
 extends Resource
 class_name AudioChannel
 
-@export var vol: float
-@export var muted: bool
+@export var vol: float:
+	set(v):
+		vol = v
+		apply()
+@export var muted: bool:
+	set(m):
+		muted = m
+		apply()
 @export var bus_name: String
 
 func _init(name: String = ''):
 	resource_name = 'AudioChannel'
 	bus_name = name
+
+func apply():
 	var bi = AudioServer.get_bus_index(bus_name)
+	if vol == 0:
+		breakpoint
 	if bi >= 0:
-		muted = AudioServer.is_bus_mute(bi)
-		vol = db_to_percent(AudioServer.get_bus_volume_db(bi))
-#
-#func apply(c):
-	#vol = c.vol
-	#muted = c.muted
-	#var bi = AudioServer.get_bus_index(bus_name)
-	#if bi >= 0:
-		#AudioServer.set_bus_mute(bi, muted)
-		#AudioServer.set_bus_volume_db(bi, percent_to_db(vol))
+		AudioServer.set_bus_mute(bi, muted)
+		AudioServer.set_bus_volume_db(bi, percent_to_db(vol))
 
 func percent_to_db(percent):
 	return 50*log(0.99*percent + 0.01)/log(10)

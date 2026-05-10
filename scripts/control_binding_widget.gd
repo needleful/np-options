@@ -18,5 +18,5 @@ func set_option_hint(option:Dictionary):
 	$action.text = option.name.split('/')[1]
 
 func set_option_value(val:Array):
-	$input_keyboard.text = val[0]
-	$input_gamepad.text = val[1]
+	$key_prompt.depict(val[0], InputManagement.PromptMode.Keyboard)
+	$gamepad_prompt.depict(val[1], InputManagement.gamepad_mode)

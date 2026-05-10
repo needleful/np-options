@@ -1,7 +1,19 @@
 class_name ControlBinding
 
-static func default(p_action: String, gamepad: bool) -> String:
-	return as_string(InputManagement.default_input_for_action(p_action, gamepad))
+static func as_event(input: String) -> InputEvent:
+	var e := input.split(':')
+	match e[0]:
+		'button':
+			return InputEventJoypadButton.new()
+		'axis':
+			return InputEventJoypadMotion.new()
+		'key':
+			return InputEventKey.new()
+		'mouse':
+			return InputEventMouseButton.new()
+		_:
+			push_error('Undefined input type: ', input)
+			return null
 
 static func as_string(event: InputEvent) -> String:
 	var type := 'button'

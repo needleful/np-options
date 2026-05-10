@@ -80,10 +80,7 @@ func add_widget(property, widget_scene: PackedScene) -> void:
 	add_child(widget)
 	widget.set_option_hint(property)
 	widget.set_option_value(options.get(property.name))
-	if options.has_method('set_option'):
-		widget.changed.connect(options.set_option)
-	else:
-		widget.changed.connect(options.set)
+	widget.changed.connect(options.set)
 
 func is_export_var(property)->bool:
 	return (property.usage & Settings.USAGE_FLAGS == Settings.USAGE_FLAGS

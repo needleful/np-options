@@ -19,6 +19,7 @@ enum PromptMode {
 @export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
 @export var invert_x := false
 @export var invert_y := false
+# String name to 2 InputEvents: [keyboard/mouse, gamepad]
 var bindings: Dictionary[StringName, Array]
 
 var group_name := &'Controls'
@@ -29,8 +30,8 @@ func init_bindable(actions: Array[StringName]):
 	bindable = actions
 	for action in bindable:
 		bindings[action] = [
-			ControlBinding.default(action, false),
-			ControlBinding.default(action, true)
+			InputManagement.default_input_for_action(action, false),
+			InputManagement.default_input_for_action(action, true)
 		]
 
 func set_prompts(value):
@@ -85,3 +86,22 @@ func _binding_info(p_name: String) -> Dictionary:
 		'hint': '',
 		'hint_string': 'binding'
 	}
+
+func encode(property: StringName) -> Variant:
+	var event := _get(property)
+	if event:
+		return [
+			ControlBinding.as_string(event[0]),
+			ControlBinding.as_string(event[1])
+		]
+	else:
+		return get(property)
+
+func decode(property: StringName, value) -> void:
+	if property.begins_with('bindings'):
+		_set(property, [
+			ControlBinding.as_event(value[0]),
+			ControlBinding.as_event(value[1])
+		])
+	else:
+		set(property, value)
