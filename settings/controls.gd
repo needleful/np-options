@@ -19,10 +19,20 @@ enum PromptMode {
 @export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
 @export var invert_x := false
 @export var invert_y := false
-var keyboard_bindings: Array[ControlBinding]
-var gamepad_bindings: Array[ControlBinding]
+var keyboard_bindings: Dictionary[StringName, ControlBinding]
+var gamepad_bindings: Dictionary[StringName, ControlBinding]
 
 var group_name := &'Controls'
+
+var bindable: Array[StringName]
+
+func init_bindable(actions: Array[StringName]):
+	bindable = actions
+	for action in actions:
+		if action not in keyboard_bindings:
+			keyboard_bindings[action] = ControlBinding.default(action, false)
+		if action not in gamepad_bindings:
+			gamepad_bindings[action] = ControlBinding.default(action, true)
 
 func set_prompts(value):
 	button_prompts = value
@@ -36,12 +46,14 @@ func _set(property: StringName, value: Variant) -> bool:
 	else:
 		return false
 
-func _set_binding(a: Array, id: StringName, value: Variant) -> bool:
+func _set_binding(
+	a: Dictionary[StringName, ControlBinding], id: StringName, value: Variant
+) -> bool:
 	var s := id.split('/', false)
 	if s.size() != 2:
 		push_error('Expected "%d" to be an array of form "name/index"' % id)
 		return false
-	var index := int(s[1])
+	var index := s[1]
 	a[index] = value
 	return true
 
@@ -53,20 +65,21 @@ func _get(property: StringName) -> Variant:
 	else:
 		return null
 
-func _get_binding(a: Array, id: StringName) -> Variant:
+func _get_binding(
+	a: Dictionary[StringName, ControlBinding], id: StringName
+) -> ControlBinding:
 	var s := id.split('/', false)
 	if s.size() != 2:
 		push_error('Expected "%d" to be an array of form "name/index"' % id)
-		return false
-	var index := int(s[1])
+		return null
+	var index := s[1]
 	return a[index]
 
 func _get_property_list() -> Array[Dictionary]:
 	var p :Array[Dictionary] = []
-	for k in keyboard_bindings.size():
-		p.append(_property_info(keyboard_bindings[k], 'keyboard_bindings/'+str(k)))
-	for g in gamepad_bindings.size():
-		p.append(_property_info(gamepad_bindings[g], 'gamepad_bindings/'+str(g)))
+	for s in bindable:
+		p.append(_property_info(keyboard_bindings[s], 'keyboard_bindings/'+s))
+		p.append(_property_info(gamepad_bindings[s], 'gamepad_bindings/'+s))
 	return p
 
 func _property_info(b: ControlBinding, p_name: String) -> Dictionary:
