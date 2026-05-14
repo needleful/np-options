@@ -1,7 +1,7 @@
 extends Resource
 class_name AudioChannel
 
-@export var vol: float:
+@export var vol: float = 1.0:
 	set(v):
 		vol = v
 		AudioServer.set_bus_volume_db(index, percent_to_db(vol))
