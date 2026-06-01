@@ -42,7 +42,7 @@ func reset_group(group_name: String):
 
 func load_settings():
 	if !FileAccess.file_exists(save_path):
-		push_error('No settings file: ', save_path)
+		print('No settings file: ', save_path)
 		return
 	var file:ConfigFile = ConfigFile.new()
 	var res = file.load(save_path)
