@@ -34,7 +34,7 @@ enum ScreenMode {
 	set(val):
 		vsync = val
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if (val) else DisplayServer.VSYNC_DISABLED)
-@export_range(8, 120) var text_size: int = 45:
+@export_range(30, 60) var text_size: int = 45:
 	set(val):
 		text_size = val
 		theme.default_font_size = val
