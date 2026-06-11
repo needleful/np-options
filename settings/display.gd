@@ -39,7 +39,7 @@ enum ScreenMode {
 		text_size = val
 		theme.default_font_size = val
 		ui_redraw.emit()
-@export var text_color: Color = Color.WHITE:
+var text_color: Color = Color.WHITE:
 	get:
 		return theme.get_color(&'font_color', &'Label')
 	set(val):
