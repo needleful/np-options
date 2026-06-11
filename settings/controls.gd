@@ -3,19 +3,7 @@ class_name ControlsSettings
 
 signal prompts_changed(type)
 
-enum PromptMode {
-	AutoDetect,
-	Keyboard,
-	# Unknown gamepad
-	GenericGamepad,
-	# XBox buttons
-	XBox,
-	Playstation,
-	# Gamecube/Switch-style buttons
-	Nintendo
-}
-
-@export var button_prompts: PromptMode = PromptMode.AutoDetect: set = set_prompts
+@export var button_prompts := NPInputManager.PromptMode.AutoDetect: set = set_prompts
 @export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
 @export var invert_x := false
 @export var invert_y := false
@@ -25,21 +13,32 @@ var _bindings: Dictionary[StringName, Array]
 var group_name := &'Controls'
 
 var bindable: Array[StringName]
+var default_bindings: Dictionary[StringName, Array]
 
 func init_bindable(actions: Array[StringName]):
 	bindable = actions
 	for action in bindable:
-		if action in _bindings:
-			continue
-		_bindings[action] = [
+		default_bindings[action] = [
 			# Keyboard, then gamepad
 			InputManagement.default_input_for_action(action, false),
 			InputManagement.default_input_for_action(action, true)
 		]
+		if action not in _bindings:
+			_bindings[action] = default_bindings[action]
 
 func set_prompts(value):
 	button_prompts = value
 	prompts_changed.emit(value)
+
+func _reset():
+	print_debug('Rebiding controls')
+	_bindings = default_bindings.duplicate()
+	for b in _bindings:
+		_rebind(b, _bindings[b])
+	camera_sensitivity = 1.0
+	invert_x = false
+	invert_y = false
+	button_prompts = InputManagement.PromptMode.AutoDetect
 
 func _set(property: StringName, value: Variant) -> bool:
 	if property.begins_with('bindings'):
@@ -52,11 +51,14 @@ func _set_binding(id: StringName, value: Array) -> bool:
 	if s.size() != 2:
 		push_error('Expected "%d" to be an array of form "name/index"' % id)
 		return false
-	var index := s[1]
-	_bindings[index] = value
+	var action_name := s[1]
+	return _rebind(action_name, value)
+
+func _rebind(action: String, value: Array) -> bool:
+	_bindings[action] = value
 	# Keyboard, then gamepad
-	InputManagement.rebind(index, value[0], false)
-	InputManagement.rebind(index, value[1], true)
+	InputManagement.rebind(action, value[0], false)
+	InputManagement.rebind(action, value[1], true)
 	return true
 
 func _get(property: StringName) -> Variant:

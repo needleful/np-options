@@ -38,7 +38,11 @@ func get_options_group(group_name: String):
 	return sub_options.get(group_name)
 
 func reset_group(group_name: String):
-	pass
+	var s := sub_options.get(group_name)
+	if s.has_method('_reset'):
+		s._reset()
+	else:
+		push_warning('Settings group has no _reset method: ', group_name)
 
 func load_settings():
 	if !FileAccess.file_exists(save_path):
