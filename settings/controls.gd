@@ -20,7 +20,7 @@ enum PromptMode {
 @export var invert_x := false
 @export var invert_y := false
 # String name to 2 InputEvents: [keyboard/mouse, gamepad]
-var bindings: Dictionary[StringName, Array]
+var _bindings: Dictionary[StringName, Array]
 
 var group_name := &'Controls'
 
@@ -29,7 +29,10 @@ var bindable: Array[StringName]
 func init_bindable(actions: Array[StringName]):
 	bindable = actions
 	for action in bindable:
-		bindings[action] = [
+		if action in _bindings:
+			continue
+		_bindings[action] = [
+			# Keyboard, then gamepad
 			InputManagement.default_input_for_action(action, false),
 			InputManagement.default_input_for_action(action, true)
 		]
@@ -40,36 +43,35 @@ func set_prompts(value):
 
 func _set(property: StringName, value: Variant) -> bool:
 	if property.begins_with('bindings'):
-		return _set_binding(bindings, property, value)
+		return _set_binding(property, value)
 	else:
 		return false
 
-func _set_binding(
-	a: Dictionary[StringName, Array], id: StringName, value: Array
-) -> bool:
+func _set_binding(id: StringName, value: Array) -> bool:
 	var s := id.split('/', false)
 	if s.size() != 2:
 		push_error('Expected "%d" to be an array of form "name/index"' % id)
 		return false
 	var index := s[1]
-	a[index] = value
+	_bindings[index] = value
+	# Keyboard, then gamepad
+	InputManagement.rebind(index, value[0], false)
+	InputManagement.rebind(index, value[1], true)
 	return true
 
 func _get(property: StringName) -> Variant:
 	if property.begins_with('bindings'):
-		return _get_binding(bindings, property)
+		return _get_binding(property)
 	else:
 		return null
 
-func _get_binding(
-	a: Dictionary[StringName, Array], id: StringName
-) -> Variant:
+func _get_binding(id: StringName) -> Variant:
 	var s := id.split('/', false)
 	if s.size() != 2:
 		push_error('Expected "%d" to be an array of form "name/index"' % id)
 		return null
 	var index := s[1]
-	return a[index]
+	return _bindings[index]
 
 func _get_property_list() -> Array[Dictionary]:
 	var p :Array[Dictionary] = []

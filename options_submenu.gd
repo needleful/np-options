@@ -3,6 +3,7 @@ extends Control
 
 signal ui_redraw
 signal back_pressed
+signal prompted(option_name)
 
 @export var menu_name := ''
 @export var with_back_button := true
@@ -25,6 +26,8 @@ var options: Object
 var r_enum_hint := RegEx.new()
 
 var custom_widgets:Dictionary
+# Widgets
+var widgets: Dictionary[StringName, Control]
 
 func _init():
 	r_enum_hint.compile('(\\w\\S*:\\d+,?)+')
@@ -81,10 +84,20 @@ func add_widget(property, widget_scene: PackedScene) -> void:
 	widget.set_option_hint(property)
 	widget.set_option_value(options.get(property.name))
 	widget.changed.connect(options.set)
+	if widget.has_signal('prompted'):
+		widget.prompted.connect(prompted.emit)
+	widgets[property.name] = widget
+
+func get_widget(prop_name: StringName) -> Control:
+	return widgets.get(prop_name)
 
 func is_export_var(property)->bool:
 	return (property.usage & Settings.USAGE_FLAGS == Settings.USAGE_FLAGS
 		and !property.name.begins_with('_'))
+
+func set_option_value(p_name: String, value):
+	options.set(p_name, value)
+	get_widget(p_name).set_option_value(value)
 
 func _on_ui_redraw():
 	ui_redraw.emit()

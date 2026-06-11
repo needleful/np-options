@@ -8,13 +8,13 @@ var channel: AudioChannel
 func _ready():
 	for c in get_children():
 		c.focus_neighbor_left = c.get_path()
-	$HSlider.value_changed.connect(_on_volume_changed)
+	$VBoxContainer/HSlider.value_changed.connect(_on_volume_changed)
 	$mute.toggled.connect(_on_mute_toggled)
 
 func _input(event: InputEvent):
 	if ( visible
 		and event.is_action_pressed('ui_accept')
-		and $HSlider.has_focus()
+		and $VBoxContainer/HSlider.has_focus()
 	):
 		$mute.button_pressed = !$mute.button_pressed
 
@@ -24,11 +24,11 @@ func set_option_hint(hints:Dictionary):
 
 func set_option_value(val: AudioChannel):
 	channel = val
-	$HSlider.value = val.vol
+	$VBoxContainer/HSlider.value = val.vol
 	$mute.button_pressed = val.muted
 
 func grab_focus():
-	$HSlider.grab_focus()
+	$VBoxContainer/HSlider.grab_focus()
 
 func _on_mute_toggled(val: bool):
 	if channel:
@@ -38,5 +38,5 @@ func _on_mute_toggled(val: bool):
 func _on_volume_changed(val:float):
 	if channel:
 		channel.vol = val
-		$volLabel.text = '%.2f' % val
+		$VBoxContainer/volLabel.text = '%.2f' % val
 		changed.emit(opt_name, channel)

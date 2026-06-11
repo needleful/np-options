@@ -13,9 +13,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Name"
 
-[node name="value" type="HBoxContainer" parent="."]
+[node name="value" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+alignment = 1
 
 [node name="label" type="Label" parent="value"]
 custom_minimum_size = Vector2(50, 0)

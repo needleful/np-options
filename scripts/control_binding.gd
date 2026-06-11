@@ -2,18 +2,27 @@ class_name ControlBinding
 
 static func as_event(input: String) -> InputEvent:
 	var e := input.split(':')
+	var event: InputEvent
 	match e[0]:
 		'button':
-			return InputEventJoypadButton.new()
+			event = InputEventJoypadButton.new()
+			event.button_index = int(e[1])
+			event.pressed = true
 		'axis':
-			return InputEventJoypadMotion.new()
+			event = InputEventJoypadMotion.new()
+			event.axis = int(e[1])
+			event.axis_value = float(e[2])
 		'key':
-			return InputEventKey.new()
+			event = InputEventKey.new()
+			event.physical_keycode = int(e[1])
+			event.pressed = true
 		'mouse':
-			return InputEventMouseButton.new()
+			event = InputEventMouseButton.new()
+			event.button_index = int(e[1])
 		_:
 			push_error('Undefined input type: ', input)
-			return null
+			event = null
+	return event
 
 static func as_string(event: InputEvent) -> String:
 	var type := 'button'
