@@ -19,7 +19,8 @@ func _rebind_start():
 
 func set_option_hint(option:Dictionary):
 	option_name = option.name
-	$action.text = option.name.split('/')[1]
+	var action_name:String = option.name.split('/')[1]
+	$action.text = InputManagement.translate(action_name)
 
 func set_option_value(val:Array):
 	value = val
