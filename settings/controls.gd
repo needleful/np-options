@@ -5,8 +5,8 @@ signal prompts_changed(type)
 
 @export var button_prompts := NPInputManager.PromptMode.AutoDetect: set = set_prompts
 @export_range(0.1, 10.0, 0.1) var camera_sensitivity := 1.0
-@export var invert_x := false
 @export var invert_y := false
+@export var invert_x := false
 # String name to 2 InputEvents: [keyboard/mouse, gamepad]
 var _bindings: Dictionary[StringName, Array]
 

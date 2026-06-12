@@ -18,6 +18,10 @@ func _init(name: String = ''):
 	bus_name = name
 	index = AudioServer.get_bus_index(bus_name)
 
+func reset():
+	vol = 1.0
+	muted = false
+
 func percent_to_db(percent):
 	return 50*log(0.99*percent + 0.01)/log(10)
 

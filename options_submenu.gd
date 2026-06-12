@@ -21,6 +21,7 @@ const CLASS_WIDGETS = {
 	'enum': preload('res://addons/np-options/widgets/enum_widget.tscn'),
 	'binding': preload('res://addons/np-options/widgets/control_binding_widget.tscn'),
 }
+const GROUP_SPACER := preload('res://addons/np-options/widgets/group_spacer.tscn')
 
 var options: Object
 var r_enum_hint := RegEx.new()
@@ -46,9 +47,26 @@ func redraw():
 	for child in get_children():
 		if child is Control:
 			remove_child(child)
-	for property in options.get_property_list():
-		if is_export_var(property):
-			create_widget(property)
+	var properties := options.get_property_list()
+	if options.has_method('get_sorted_properties'):
+		var property_dict := {}
+		for p in properties:
+			property_dict[p.name] = p
+		# Dictionaries with 'name' and 'properties'
+		var d:Array = options.get_sorted_properties()
+		for category in d:
+			if category.properties.is_empty():
+				continue
+			if category.name != '_default':
+				var spacer:GroupSpacer = GROUP_SPACER.instantiate()
+				spacer.group_name = category.name
+				add_child(spacer)
+			for p in category.properties:
+				create_widget(property_dict[p])
+	else:
+		for property in properties:
+			if is_export_var(property):
+				create_widget(property)
 	if with_back_button:
 		var back := Button.new()
 		back.text = tr('Back')

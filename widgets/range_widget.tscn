@@ -22,7 +22,6 @@ alignment = 1
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "Value"
-horizontal_alignment = 1
 
 [node name="slider" type="HSlider" parent="value"]
 layout_mode = 2

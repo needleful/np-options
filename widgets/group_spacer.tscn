@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://2f883v1et3xy"]
+
+[ext_resource type="Script" uid="uid://cu2flxyxn3ax6" path="res://addons/np-options/scripts/components/group_spacer.gd" id="1_djr7j"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_djr7j"]
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_h6wlw"]
+
+[node name="GroupSpacer" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_djr7j")
+line_style = SubResource("StyleBoxLine_djr7j")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Group Name"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxLine_h6wlw")

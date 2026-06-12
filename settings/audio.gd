@@ -1,12 +1,16 @@
 extends Object
 class_name AudioSettings
 
-@export var master_audio: Resource = AudioChannel.new('Master')
-@export var music: Resource = AudioChannel.new('Music')
-@export var sfx: Resource = AudioChannel.new('SFX')
-@export var voices: Resource = AudioChannel.new('Voice')
+@export var master_audio := AudioChannel.new('Master')
+@export var music := AudioChannel.new('Music')
+@export var sfx := AudioChannel.new('SFX')
 
 var group_name := &'Audio'
+
+func _reset():
+	master_audio.reset()
+	music.reset()
+	sfx.reset()
 
 func encode(property: String):
 	var a: AudioChannel = get(property)

@@ -38,6 +38,12 @@ var group_name := &'Graphics'
 func _ready():
 	grass_quality = grass_quality
 
+func _reset():
+	shadow_quality= Quality.Medium
+	anti_aliasing= Quality.Medium
+	grass_quality= Quality.High
+	bloom = false
+
 func set_q_shadows(sq):
 	shadow_quality = sq
 	var directional_shadow_size := 'rendering/lights_and_shadows/directional_shadow/size'
