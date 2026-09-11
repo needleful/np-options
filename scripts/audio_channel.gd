@@ -4,7 +4,7 @@ class_name AudioChannel
 @export var vol: float = 1.0:
 	set(v):
 		vol = v
-		AudioServer.set_bus_volume_db(index, percent_to_db(vol))
+		AudioServer.set_bus_volume_db(index, linear_to_db(vol))
 @export var muted: bool:
 	set(m):
 		muted = m
@@ -21,9 +21,3 @@ func _init(name: String = ''):
 func reset():
 	vol = 1.0
 	muted = false
-
-func percent_to_db(percent):
-	return 50*log(0.99*percent + 0.01)/log(10)
-
-func db_to_percent(db):
-	return (pow(10, db/50) - 0.01) /0.99
