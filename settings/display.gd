@@ -38,24 +38,12 @@ enum ScreenMode {
 		text_size = val
 		theme.default_font_size = val
 		ui_redraw.emit()
-@export var text_color: Color = Color.WHITE:
-	get:
-		return theme.get_color(&'font_color', &'Label')
-	set(val):
-		theme.set_color(&'font_color', &'Label', val)
-		theme.set_color(&'font_color', &'Button', val)
-		theme.set_color(&'font_color', &'OptionButton', val)
-		theme.set_color(&'font_color_fg', &'TabBar', val)
-		theme.set_color(&'font_color_fg', &'TabContainer', val)
-		theme.set_color(&'default_color', &'RichTextLabel', val)
-		ui_redraw.emit()
 
 var group_name := &'Display'
 
 func _reset():
 	screen_mode = ScreenMode.Fullscreen
 	vsync = true
-	text_color = Color.BLACK
 	text_size = 45
 
 func option_is_hidden(opt_name: StringName) -> bool:
