@@ -80,7 +80,10 @@ func sub_load_from(options, file: ConfigFile):
 func sub_save_to(options, file: ConfigFile):
 	var section_name = options.group_name
 	var encode: Callable = options.encode if options.has_method('encode') else options.get
+	var hidden = options.option_is_hidden if options.has_method('option_is_hidden') else null
 	for property in options.get_property_list():
 		if property.usage & USAGE_FLAGS == USAGE_FLAGS:
+			if hidden and hidden.call(property.name):
+				continue
 			file.set_value(section_name, property.name, encode.call(property.name))
 	return file

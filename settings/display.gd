@@ -29,7 +29,6 @@ enum ScreenMode {
 			ScreenMode.ExclusiveFullscreen:
 				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
 
-#warning-ignore:unused_class_variable
 @export var vsync: bool:
 	set(val):
 		vsync = val
@@ -58,3 +57,6 @@ func _reset():
 	vsync = true
 	text_color = Color.BLACK
 	text_size = 45
+
+func option_is_hidden(opt_name: StringName) -> bool:
+	return opt_name == &'theme'
