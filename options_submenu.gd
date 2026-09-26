@@ -105,6 +105,9 @@ func add_widget(property, widget_scene: PackedScene) -> void:
 	if widget.has_signal('prompted'):
 		widget.prompted.connect(prompted.emit)
 	widgets[property.name] = widget
+	var d := setting_disable_reason(property.name)
+	if d:
+		widget.disable(d)
 
 func get_widget(prop_name: StringName) -> Control:
 	return widgets.get(prop_name)
@@ -125,3 +128,9 @@ func top_grab_focus():
 		if c is Control:
 			c.grab_focus()
 			return
+
+func setting_disable_reason(setting: StringName) -> String:
+	if options.has_method('setting_disable_reason'):
+		return options.setting_disable_reason(setting)
+	else:
+		return ''
